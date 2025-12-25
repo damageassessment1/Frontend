@@ -30,6 +30,7 @@ const initialState: IAuthState = {
   phoneNumber: "",
   email: "",
   whatsappNumber: "",
+  citizenInfo: JSON.parse(localStorage.getItem("citizenInfo") || "{}"),
 };
 
 export const authSlice = createSlice({
@@ -67,6 +68,8 @@ export const authSlice = createSlice({
       state.password = "";
       localStorage.removeItem("citizen_user");
       localStorage.removeItem("token");
+    setCitizenInfo: (state, action) => {
+      state.citizenInfo = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -135,6 +138,8 @@ export const signIn = createAsyncThunk(
       }
 
       const userProfile = {
+      return {
+        citizenData: res?.data,
         nationalId: payload.nationalId,
         password: payload.password,
         name: res.data?.data?.name || "User",
@@ -192,5 +197,6 @@ export const {
   setFamilyName,
   setEmail,
   setPhoneNumber,
+  setCitizenInfo,
 } = authSlice.actions;
 export default authSlice.reducer;
